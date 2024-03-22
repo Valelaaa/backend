@@ -4,12 +4,13 @@ import com.maib.backend.entity.comment.Comment
 import com.maib.backend.entity.post.Post
 import jakarta.persistence.*
 import lombok.Builder
+import lombok.EqualsAndHashCode
 import lombok.NoArgsConstructor
 import java.util.*
 
 @Entity
 @NoArgsConstructor
-@Builder
+@EqualsAndHashCode
 @Table(name = "ratings")
 data class Rating(
     @Id

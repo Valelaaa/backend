@@ -7,12 +7,14 @@ import com.maib.backend.entity.profile.Profile
 import com.maib.backend.entity.rating.Rating
 import jakarta.persistence.*
 import lombok.Builder
+import lombok.EqualsAndHashCode
 import lombok.NoArgsConstructor
 import java.util.*
 
 @Entity
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 @Table(name = "posts")
 data class Post(
     @Id
