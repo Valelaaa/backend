@@ -11,6 +11,7 @@ services:
       - "localhost:192.168.225.200"
     image: 'open-mind-backend'
     container_name: open-mind
+    restart: on-failure
     depends_on:
       - open-mind-db
     environment:
@@ -18,6 +19,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=openmind
       - SPRING_DATASOURCE_PASSWORD=openmind
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
 
   open-mind-db:
     image: 'postgres:13.1-alpine'

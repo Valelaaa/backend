@@ -7,12 +7,13 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import lombok.Builder
+import lombok.EqualsAndHashCode
 import lombok.NoArgsConstructor
 import java.util.*
 
 @Entity
 @NoArgsConstructor
-@Builder
+@EqualsAndHashCode
 @Table(name = "categories")
 data class Category(
     @Id

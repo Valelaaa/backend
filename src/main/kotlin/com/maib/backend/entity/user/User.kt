@@ -1,26 +1,32 @@
 package com.maib.backend.entity.user
 
 import com.maib.backend.entity.profile.Profile
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.OneToOne
+import jakarta.persistence.*
 import lombok.Builder
+import lombok.EqualsAndHashCode
 import lombok.NoArgsConstructor
 import java.util.*
 
 @Entity
 @NoArgsConstructor
-@Builder
+@EqualsAndHashCode
+@Table(name = "users")
 data class User(
     @Id
-    var userId:String = UUID.randomUUID().toString(),
-    var nickname:String ="",
-    var firstName:String ="",
-    var lastName:String = "",
-    var email:String ="",
-    var phoneNumber:String ="",
-    var password: String ="",
+    @Column(name = "user_id")
+    var userId: String = UUID.randomUUID().toString(),
+    @Column(name = "nickname", nullable = false, unique = true)
+    var nickname: String = "",
+    @Column(name = "first_name")
+    var firstName: String = "",
+    @Column(name = "last_name")
+    var lastName: String = "",
+    @Column(name = "email")
+    var email: String = "",
+    @Column(name = "phone_number")
+    var phoneNumber: String = "",
+    @Column(name = "password")
+    var password: String = "",
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL])
-    var profile:Profile? = null
+    var profile: Profile? = null
 )

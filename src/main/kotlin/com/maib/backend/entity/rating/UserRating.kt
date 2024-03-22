@@ -3,12 +3,14 @@ package com.maib.backend.entity.rating
 import com.maib.backend.entity.user.User
 import jakarta.persistence.*
 import lombok.Builder
+import lombok.EqualsAndHashCode
 import lombok.NoArgsConstructor
 
 
 @NoArgsConstructor
 @Builder
 
+@EqualsAndHashCode
 @Entity
 @Table(name = "users_rating")
 class UserRating(
