@@ -4,6 +4,7 @@ import com.maib.backend.entity.category.dto.CategoryDto
 import com.maib.backend.exception.category.CategoryNotFoundException
 import com.maib.backend.repository.CategoryRepository
 import com.maib.backend.service.category.mapper.CategoryMapper
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
@@ -16,17 +17,16 @@ class CategoryService(
         return categoryRepository.findAll().map(categoryMapper::dtoFromEntity)
     }
 
-    fun findById(categoryName: String): CategoryDto {
+    fun finByName(categoryName: String): CategoryDto {
         return categoryMapper.dtoFromEntity(categoryRepository.findByCategoryName(categoryName).getOrNull()
                 ?: throw CategoryNotFoundException(categoryName))
     }
 
-    fun deleteById(categoryName: String) {
-        if (categoryRepository.existsByCategoryName(categoryName)) {
-            categoryRepository.deleteByCategoryName(categoryName)
-        } else {
-            throw CategoryNotFoundException(categoryName)
-        }
+    @Transactional
+    fun deleteByName(categoryName: String) {
+        val category = categoryRepository.findByCategoryName(categoryName).getOrNull()
+                ?: throw CategoryNotFoundException(categoryName)
+        categoryRepository.deleteById(category.categoryId)
     }
 
     fun create(categoryDto: CategoryDto) {
@@ -45,7 +45,7 @@ class CategoryService(
         if (categoryDto.categoryImage != null) {
             currentCategory.categoryImage = categoryMapper.saveImageToStorage(categoryDto.categoryImage)
         }
-
+        categoryRepository.save(currentCategory)
     }
 
 

@@ -5,20 +5,31 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+
     ports:
       - "8080:8080"
+
     extra_hosts:
-      - "localhost:192.168.225.200"
+      - "localhost:192.168.100.3"
+
     image: 'open-mind-backend'
+
     container_name: open-mind
+
     restart: on-failure
+
     depends_on:
       - open-mind-db
+
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://open-mind-db:5432/open-mind
       - SPRING_DATASOURCE_USERNAME=openmind
       - SPRING_DATASOURCE_PASSWORD=openmind
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+
+    volumes:
+      - openmind:/app/data
+      - openmind_storage:/app/storage
 
 
   open-mind-db:
@@ -30,3 +41,13 @@ services:
       - POSTGRES_USER=openmind
       - POSTGRES_PASSWORD=openmind
       - POSTGRES_DB=open-mind
+    volumes:
+      - postgres-openmind:/var/lib/postgresql/data
+
+volumes:
+  openmind:
+
+  openmind_storage:
+
+  postgres-openmind:
+
