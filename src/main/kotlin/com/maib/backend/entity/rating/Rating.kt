@@ -23,7 +23,7 @@ data class Rating(
 
     @OneToOne(cascade = [CascadeType.ALL])
     @PrimaryKeyJoinColumn(name = "post_id")
-    val post: Post? = null,
+    var post: Post? = null,
     @Column(name = "rating_value")
     val ratingValue: Int = 0
 )

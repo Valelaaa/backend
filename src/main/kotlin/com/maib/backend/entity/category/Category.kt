@@ -19,12 +19,12 @@ data class Category(
     @Id
     @Column(name = "category_id")
     var categoryId: String = UUID.randomUUID().toString(),
-    @Column(name = "category_name")
+    @Column(name = "category_name", unique = true, nullable = false)
     var categoryName: String = "",
     @Column(name = "category_title")
     var categoryTitle: String = "",
     @Column(name = "category_image", nullable = true)
-    var categoryImage: String = "",
+    var categoryImage: String? = null,
     @Column(name = "category_description")
     var categoryDescription: String = "",
     @Column(name = "tag_line")

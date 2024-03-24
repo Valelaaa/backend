@@ -9,6 +9,8 @@ import com.maib.backend.exception.category.CategoryNotFoundException
 import com.maib.backend.exception.post.PostNotFoundException
 import com.maib.backend.repository.CategoryRepository
 import com.maib.backend.repository.PostRepository
+import com.maib.backend.repository.ProfileRepository
+import com.maib.backend.repository.RatingRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
@@ -16,7 +18,9 @@ import kotlin.jvm.optionals.getOrNull
 @Service
 @RequiredArgsConstructor
 class PostMapper(private val postRepository: PostRepository,
-                 private val categoryRepository: CategoryRepository) :
+                 private val categoryRepository: CategoryRepository,
+                 private val ratingRepository: RatingRepository,
+                 private val profileRepository: ProfileRepository) :
         Mapper<Post, PostDto> {
     override fun entityFromDto(dto: PostDto): Post {
         return if (postRepository.existsById(dto.postId)) {
@@ -28,7 +32,7 @@ class PostMapper(private val postRepository: PostRepository,
             val category = categoryRepository.findByCategoryName(dto.category).getOrNull()
                     ?: throw CategoryNotFoundException(categoryName = dto.category)
             val rating = Rating()
-            Post(
+            val post = Post(
                     postId = dto.postId,
                     title = dto.title,
                     description = dto.description,
@@ -38,6 +42,15 @@ class PostMapper(private val postRepository: PostRepository,
                     author = author,
                     rating = rating,
             )
+
+            author.createdPosts = author.createdPosts?.plus(post)
+            category.postCount++
+            rating.post = post
+
+            profileRepository.save(author)
+            ratingRepository.save(rating)
+            categoryRepository.save(category)
+            post
         }
     }
 
