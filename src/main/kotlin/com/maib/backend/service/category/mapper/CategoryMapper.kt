@@ -45,33 +45,35 @@ class CategoryMapper(
                 categoryDescription = entity.categoryDescription,
                 tagLine = entity.tagLine,
                 postCount = entity.postCount,
-                categoryImage = getImageFromPath(entity.categoryImage)
+                categoryImage = getImageFromPathAsBase64(entity.categoryImage)
         )
     }
 
-    fun saveImageToStorage(imageByteArray: ByteArray?): String? {
-        if (imageByteArray == null) {
+    fun saveImageToStorage(imageBase64: String?): String? {
+        if (imageBase64 == null) {
             return null
         }
+
+        val imageBytes = Base64.getDecoder().decode(imageBase64)
 
         val timestamp = Instant.now().toEpochMilli()
         val uniqueImageName = "image-$timestamp"
 
-        val storageDir = File("storage")
+        val storageDir = File("/app/storage")
         if (!storageDir.exists()) {
             storageDir.mkdirs()
         }
         val imageFile = File(storageDir, "$uniqueImageName.jpg")
         val outputStream = FileOutputStream(imageFile)
         outputStream.use {
-            outputStream.write(imageByteArray)
+            outputStream.write(imageBytes)
             outputStream.flush()
         }
 
         return imageFile.absolutePath
     }
 
-    fun getImageFromPath(imagePath: String?): ByteArray? {
+    fun getImageFromPathAsBase64(imagePath: String?): String? {
         if (imagePath == null) {
             return null
         }
@@ -81,9 +83,10 @@ class CategoryMapper(
             return null
         }
         return try {
-            Files.readAllBytes(imageFile.toPath())
+            Base64.getEncoder().encodeToString(Files.readAllBytes(imageFile.toPath()))
         } catch (e: Exception) {
             null
         }
     }
+
 }

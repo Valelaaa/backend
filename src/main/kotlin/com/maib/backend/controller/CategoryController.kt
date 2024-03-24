@@ -1,7 +1,8 @@
-package com.maib.backend.controller.post
+package com.maib.backend.controller
 
 import com.maib.backend.entity.category.dto.CategoryDto
 import com.maib.backend.service.category.CategoryService
+import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -18,23 +19,24 @@ class CategoryController(
         return categoryService.findAll()
     }
 
-    @GetMapping("/{categoryName}")
+    @GetMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun getByName(@PathVariable("categoryName") categoryName: String): CategoryDto {
-        return categoryService.findById(categoryName)
+    fun getByName(@PathVariable("name") categoryName: String): CategoryDto {
+        return categoryService.finByName(categoryName.uppercase())
     }
 
 
-    @DeleteMapping("/{categoryName}")
+    @DeleteMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun deleteById(@PathVariable("categoryName") categoryName: String) = categoryService.deleteById(categoryName)
+    @Transactional
+    fun delete(@PathVariable("name") categoryName: String) = categoryService.deleteByName(categoryName.uppercase())
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun create(@RequestBody categoryDto: CategoryDto) = categoryService.create(categoryDto)
 
 
-    @PutMapping("/{categoryName}")
+    @PutMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun update(@PathVariable("categoryName") categoryName: String, @RequestBody categoryDto: CategoryDto) = categoryService.update(categoryName, categoryDto)
+    fun update(@PathVariable("name") categoryName: String, @RequestBody categoryDto: CategoryDto) = categoryService.update(categoryName.uppercase(), categoryDto)
 }

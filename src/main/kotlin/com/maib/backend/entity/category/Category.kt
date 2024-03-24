@@ -1,6 +1,7 @@
 package com.maib.backend.entity.category
 
 import com.maib.backend.entity.post.Post
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -32,6 +33,6 @@ data class Category(
     @Column(name = "post_count")
     var postCount: Long = 0,
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL])
     var posts: List<Post> = emptyList()
 )
