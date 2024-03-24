@@ -18,6 +18,7 @@ class PostService(
 ) {
     fun getAllPosts(category: String?, sortType: String, sortOrder: String): List<ShortPostDto> {
         var postList = postRepository.findAll()
+
         if (category != null)
             postList.filter { it.category.categoryName == category }
 

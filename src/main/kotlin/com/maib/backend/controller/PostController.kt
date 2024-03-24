@@ -1,4 +1,4 @@
-package com.maib.backend.controller.post
+package com.maib.backend.controller
 
 import com.maib.backend.entity.post.dto.PostDto
 import com.maib.backend.entity.post.dto.ShortPostDto

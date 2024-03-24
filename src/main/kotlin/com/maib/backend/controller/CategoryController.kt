@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*
 class CategoryController(
         private val categoryService: CategoryService
 ) {
+
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun getAll(): List<CategoryDto> {
