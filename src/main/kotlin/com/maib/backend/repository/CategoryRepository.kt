@@ -7,4 +7,6 @@ import java.util.*
 interface CategoryRepository : JpaRepository<Category, String> {
 
     fun findByCategoryName(name: String): Optional<Category>
+    fun deleteByCategoryName(categoryName: String)
+    fun existsByCategoryName(categoryName: String): Boolean
 }

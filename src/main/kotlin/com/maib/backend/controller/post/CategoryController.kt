@@ -18,23 +18,23 @@ class CategoryController(
         return categoryService.findAll()
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/{categoryName}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun getById(@PathVariable("categoryId") categoryId: String): CategoryDto {
-        return categoryService.findById(categoryId)
+    fun getByName(@PathVariable("categoryName") categoryName: String): CategoryDto {
+        return categoryService.findById(categoryName)
     }
 
 
-    @DeleteMapping("/{categoryId}")
+    @DeleteMapping("/{categoryName}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun deleteById(@PathVariable("categoryId") categoryId: String) = categoryService.deleteById(categoryId)
+    fun deleteById(@PathVariable("categoryName") categoryName: String) = categoryService.deleteById(categoryName)
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun create(@RequestBody categoryDto: CategoryDto) = categoryService.create(categoryDto)
 
 
-    @PutMapping("/{categoryId}")
+    @PutMapping("/{categoryName}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun update(@PathVariable("categoryId") categoryId: String, @RequestBody categoryDto: CategoryDto) = categoryService.update(categoryId, categoryDto)
+    fun update(@PathVariable("categoryName") categoryName: String, @RequestBody categoryDto: CategoryDto) = categoryService.update(categoryName, categoryDto)
 }
