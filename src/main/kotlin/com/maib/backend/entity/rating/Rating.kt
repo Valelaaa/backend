@@ -25,5 +25,5 @@ data class Rating(
     @PrimaryKeyJoinColumn(name = "post_id")
     var post: Post? = null,
     @Column(name = "rating_value")
-    val ratingValue: Int = 0
+    var ratingValue: Int = 0
 )

@@ -36,7 +36,7 @@ class CategoryService(
     }
 
     fun update(categoryName: String, categoryDto: CategoryDto) {
-        var currentCategory = categoryRepository.findByCategoryName(categoryName).getOrNull()
+        val currentCategory = categoryRepository.findByCategoryName(categoryName).getOrNull()
                 ?: throw CategoryNotFoundException(categoryName)
         currentCategory.categoryDescription = categoryDto.categoryDescription
         currentCategory.categoryTitle = categoryDto.categoryTitle
