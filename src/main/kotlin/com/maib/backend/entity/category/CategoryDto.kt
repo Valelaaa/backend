@@ -1,4 +1,4 @@
-package com.maib.backend.entity.category.dto
+package com.maib.backend.entity.category
 
 import com.maib.backend.entity.post.Post
 import jakarta.validation.constraints.NotBlank

@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor
 
 
 @NoArgsConstructor
-@Builder
-
 @EqualsAndHashCode
 @Entity
 @Table(name = "users_rating")

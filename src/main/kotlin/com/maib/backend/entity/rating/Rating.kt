@@ -19,11 +19,12 @@ data class Rating(
 
     @OneToOne(cascade = [CascadeType.ALL])
     @PrimaryKeyJoinColumn(name = "comment_id")
-    val comment: Comment? = null,
+    var comment: Comment? = null,
 
     @OneToOne(cascade = [CascadeType.ALL])
     @PrimaryKeyJoinColumn(name = "post_id")
     var post: Post? = null,
+
     @Column(name = "rating_value")
     var ratingValue: Int = 0
 )

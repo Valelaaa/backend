@@ -1,6 +1,6 @@
 package com.maib.backend.controller
 
-import com.maib.backend.entity.category.dto.CategoryDto
+import com.maib.backend.entity.category.CategoryDto
 import com.maib.backend.service.category.CategoryService
 import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor

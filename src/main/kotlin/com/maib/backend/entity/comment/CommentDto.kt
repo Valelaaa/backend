@@ -1,4 +1,4 @@
-package com.maib.backend.entity.comment.dto
+package com.maib.backend.entity.comment
 
 import jakarta.validation.constraints.NotBlank
 import lombok.Data

@@ -1,15 +1,17 @@
 package com.maib.backend.service.comment
 
-import com.maib.backend.entity.comment.dto.CommentDto
+import com.maib.backend.entity.comment.CommentDto
 import com.maib.backend.exception.comment.CommentNotFoundException
 import com.maib.backend.repository.CommentRepository
+import com.maib.backend.repository.RatingRepository
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CommentService(
         private val commentRepository: CommentRepository,
-        private val commentMapper: CommentMapper
+        private val commentMapper: CommentMapper,
+        private val ratingRepository: RatingRepository
 ) {
     fun findAll(): List<CommentDto> {
         return commentRepository.findAll().map(commentMapper::dtoFromEntity)
@@ -23,6 +25,7 @@ class CommentService(
 
     fun deleteById(commentId: String) {
         commentRepository.deleteById(commentId)
+
     }
 
     fun create(commentDto: CommentDto) {

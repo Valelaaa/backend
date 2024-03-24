@@ -1,6 +1,6 @@
 package com.maib.backend.controller
 
-import com.maib.backend.entity.comment.dto.CommentDto
+import com.maib.backend.entity.comment.CommentDto
 import com.maib.backend.service.comment.CommentService
 import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor

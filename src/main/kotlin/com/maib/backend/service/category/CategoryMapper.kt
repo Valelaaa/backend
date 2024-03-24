@@ -1,8 +1,8 @@
-package com.maib.backend.service.category.mapper
+package com.maib.backend.service.category
 
 import com.maib.backend.entity.Mapper
 import com.maib.backend.entity.category.Category
-import com.maib.backend.entity.category.dto.CategoryDto
+import com.maib.backend.entity.category.CategoryDto
 import com.maib.backend.exception.category.CategoryNotFoundException
 import com.maib.backend.repository.CategoryRepository
 import org.springframework.stereotype.Service

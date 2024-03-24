@@ -1,6 +1,5 @@
 package com.maib.backend.entity.comment
 
-import com.maib.backend.entity.comment.dto.CommentDto
 import com.maib.backend.entity.post.Post
 import com.maib.backend.entity.profile.Profile
 import com.maib.backend.entity.rating.Rating
