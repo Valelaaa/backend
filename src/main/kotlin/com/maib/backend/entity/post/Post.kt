@@ -25,22 +25,18 @@ data class Post(
     @Column(name = "description", nullable = true)
     var description: String? = null,
 
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "author_id")
-    var author: Profile = Profile(),
-
     @Column(name = "created_date")
     var createdDate: Date = Date(System.currentTimeMillis()),
 
-    @OneToMany(mappedBy = "post")
-    var comments: List<Comment> = emptyList(),
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
+    val profile: Profile = Profile(),
 
-    @OneToOne(cascade = [CascadeType.ALL], mappedBy = "post")
-    @PrimaryKeyJoinColumn(name = "rating_id")
+    @OneToOne
+    @JoinColumn(name = "rating_id")
     var rating: Rating = Rating(),
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    var category: Category = Category()
+    var category: Category = Category(),
 )
-

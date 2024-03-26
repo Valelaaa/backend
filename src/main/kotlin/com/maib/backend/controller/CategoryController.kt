@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.*
 class CategoryController(
         private val categoryService: CategoryService
 ) {
-
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    fun getAll(): List<CategoryDto> {
-        return categoryService.findAll()
+    fun getAll(
+            @RequestParam(name = "sortType", required = false, defaultValue = "name") sortType: String?,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") sortOrder: String?,
+    ): List<CategoryDto> {
+        return categoryService.findAll(sortType, sortOrder)
     }
 
     @GetMapping("/{name}")
@@ -26,6 +28,11 @@ class CategoryController(
         return categoryService.finByName(categoryName.uppercase())
     }
 
+    @GetMapping("/count")
+    @ResponseStatus(value = HttpStatus.OK)
+    fun getPostCount(
+            @RequestParam("name") categoryName: String
+    ): Int = categoryService.getPostCountByName(categoryName.uppercase())
 
     @DeleteMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)
@@ -35,7 +42,6 @@ class CategoryController(
     @PostMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun create(@RequestBody categoryDto: CategoryDto) = categoryService.create(categoryDto)
-
 
     @PutMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)

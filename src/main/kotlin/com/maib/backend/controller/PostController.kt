@@ -1,9 +1,11 @@
 package com.maib.backend.controller
 
+import com.maib.backend.entity.post.dto.CreatePostDto
 import com.maib.backend.entity.post.dto.PostDto
 import com.maib.backend.entity.post.dto.ShortPostDto
 import com.maib.backend.service.post.PostService
 import lombok.RequiredArgsConstructor
+import org.apache.logging.log4j.LogManager
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -13,13 +15,17 @@ import org.springframework.web.bind.annotation.*
 class PostController(
         private val postsService: PostService,
 ) {
+    val log = LogManager.getLogger(PostController::class)
+
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun getPosts(
             @RequestParam(name = "category", required = false) category: String?,
             @RequestParam(name = "sortType", required = false, defaultValue = "fresh") sortType: String,
-            @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") sortOrder: String,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "desc") sortOrder: String,
     ): List<ShortPostDto> {
+        log.info("Request to fetch $category posts")
+
         return postsService.getAllPosts(category, sortType, sortOrder)
     }
 
@@ -34,9 +40,9 @@ class PostController(
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun createPost(
-            @RequestBody postDto: PostDto
+    fun createPost(@RequestBody postDto: CreatePostDto
     ) {
+        log.info("Request to create new post $postDto")
         postsService.createPost(postDto)
     }
 

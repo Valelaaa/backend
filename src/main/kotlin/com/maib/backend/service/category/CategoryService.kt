@@ -12,8 +12,21 @@ class CategoryService(
         private val categoryRepository: CategoryRepository,
         private val categoryMapper: CategoryMapper
 ) {
-    fun findAll(): List<CategoryDto> {
-        return categoryRepository.findAll().map(categoryMapper::dtoFromEntity)
+    fun findAll(sortType: String?, sortOrder: String?): List<CategoryDto> {
+        var allCategories = categoryRepository.findAll().map(categoryMapper::dtoFromEntity)
+        allCategories = when (sortType) {
+            "name" -> allCategories.sortedBy { it.categoryName }
+            "title" -> allCategories.sortedBy { it.categoryTitle }
+            else -> allCategories
+        }
+
+        allCategories = if (sortOrder == "desc") {
+            allCategories.reversed()
+        } else {
+            allCategories
+        }
+
+        return allCategories
     }
 
     fun finByName(categoryName: String): CategoryDto {
@@ -45,6 +58,12 @@ class CategoryService(
             currentCategory.categoryImage = categoryMapper.saveImageToStorage(categoryDto.categoryImage)
         }
         categoryRepository.save(currentCategory)
+    }
+
+    fun getPostCountByName(categoryName: String): Int {
+        val category = categoryRepository.findByCategoryName(categoryName).getOrNull()
+                ?: throw CategoryNotFoundException(categoryName)
+        return category.postCount.toInt()
     }
 
 

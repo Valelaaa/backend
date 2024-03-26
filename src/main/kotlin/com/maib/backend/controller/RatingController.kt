@@ -19,7 +19,7 @@ class RatingController(
             @PathVariable entityId: String,
             @RequestBody userId: String
     ): Rating {
-       return ratingService.upvote(entityType, entityId, userId)
+        return ratingService.upvote(entityType, entityId, userId)
     }
 
     @PostMapping("/{entityType}/{entityId}/downvote")

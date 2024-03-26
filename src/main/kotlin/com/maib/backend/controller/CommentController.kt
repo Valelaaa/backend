@@ -1,6 +1,7 @@
 package com.maib.backend.controller
 
 import com.maib.backend.entity.comment.CommentDto
+import com.maib.backend.entity.comment.CreateCommentDto
 import com.maib.backend.service.comment.CommentService
 import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor
@@ -12,21 +13,20 @@ import org.springframework.web.bind.annotation.*
 @RequiredArgsConstructor
 class CommentController(
         private val commentService: CommentService
-
 ) {
 
-    @GetMapping
+    @GetMapping("postId/{postId}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun getAll(): List<CommentDto> {
-        return commentService.findAll()
-    }
+    fun getCommentsByPostId(@PathVariable("postId") postId: String,
+                            @RequestParam(name = "sortType", defaultValue = "date", required = false) sortType: String?,
+                            @RequestParam("sortOrder", defaultValue = "asc", required = false) sortOrder: String?)
+            : List<CommentDto> = commentService.findCommentsByPostId(postId, sortType, sortOrder)
 
     @GetMapping("/{commentId}")
     @ResponseStatus(value = HttpStatus.OK)
     fun getByName(@PathVariable("commentId") commentId: String): CommentDto {
         return commentService.findById(commentId)
     }
-
 
     @DeleteMapping("/{commentId}")
     @ResponseStatus(value = HttpStatus.OK)
@@ -35,7 +35,7 @@ class CommentController(
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.OK)
-    fun create(@RequestBody commentDto: CommentDto) = commentService.create(commentDto)
+    fun create(@RequestBody commentDto: CreateCommentDto) = commentService.create(commentDto)
 
 
     @PutMapping("/{commentId}")

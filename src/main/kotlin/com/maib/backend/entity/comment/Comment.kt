@@ -16,24 +16,30 @@ data class Comment(
         @Id
         @Column(name = "comment_id")
         var commentId: String = UUID.randomUUID().toString(),
-        @ManyToOne
-        @PrimaryKeyJoinColumn(name = "comment_author_id")
-        var commentAuthor: Profile = Profile(),
+
         @Column(name = "comment_message")
         var message: String = "",
+
         @Column(name = "created_date")
         var createdDate: Date = Date(System.currentTimeMillis()),
+
         @ManyToOne
-        @PrimaryKeyJoinColumn(name = "post_id")
-        var post: Post = Post(),
+        @JoinColumn(name = "profile_id")
+        val profile: Profile = Profile(),
+
         @ManyToOne
-        @JoinColumn(name = "parent_comment_id")
-        var parentComment: Comment? = null,
+        @JoinColumn(name = "post_id")
+        var post: Post? = Post(),
+
         @OneToOne
-        @PrimaryKeyJoinColumn(name = "rating_id")
+        @JoinColumn(name = "rating_id")
         var rating: Rating = Rating(),
-        @OneToMany(mappedBy = "parentComment")
-        var subComments: List<Comment>? = null,
+
+        @ManyToOne
+        @JoinColumn(name = "parent_comment_id", nullable = true)
+        var parent: Comment? = null,
+
+        @OneToMany(mappedBy = "parent")
+        var subcomments: MutableList<Comment> = mutableListOf()
 ) {
-    fun getCommentCount() = subComments?.size?.plus(1) ?: 1
 }
