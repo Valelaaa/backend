@@ -41,8 +41,13 @@ class CommentService(
 
         currentComment.message = commentDto.commentMessage
         currentComment.rating.ratingValue = Integer.parseInt(commentDto.rating)
-        currentComment.subComments = subComments
+        currentComment.subcomments = subComments?.toMutableList() ?: mutableListOf()
         commentRepository.save(currentComment)
+    }
+
+    fun findCommentsByPostId(postId: String): List<CommentDto> {
+        return commentRepository.findCommentsByPost_PostId(postId).map(commentMapper::dtoFromEntity)
+
     }
 
 }

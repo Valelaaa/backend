@@ -24,16 +24,18 @@ repositories {
 }
 
 dependencies {
+    implementation("org.apache.logging.log4j:log4j-core:2.17.1")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework:spring-webmvc")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework:spring-web")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.projectlombok:lombok:1.18.26")
     implementation("org.postgresql:postgresql")
-    implementation("org.flywaydb:flyway-core")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

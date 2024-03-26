@@ -3,7 +3,6 @@ package com.maib.backend.entity.profile
 import com.maib.backend.entity.comment.Comment
 import com.maib.backend.entity.post.Post
 import com.maib.backend.entity.rating.Rating
-import com.maib.backend.entity.rating.UserRating
 import com.maib.backend.entity.user.User
 import jakarta.persistence.*
 import lombok.EqualsAndHashCode
@@ -21,17 +20,19 @@ data class Profile(
         @Column(name = "user_picture")
 
         val userPicture: String? = null,
-        @OneToOne(cascade = [CascadeType.ALL])
-        @PrimaryKeyJoinColumn(name = "user_id")
+        @OneToOne
+        @JoinColumn(name = "user_id")
         var user: User = User(),
-        @OneToMany
-        var createdPosts: List<Post>? = null,
-        @OneToMany
-        var createdComments: List<Comment>? = null,
+        @OneToMany(mappedBy = "profile", cascade = [CascadeType.ALL])
+        val posts: MutableList<Post> = mutableListOf(),
+        @OneToMany(mappedBy = "profile", cascade = [CascadeType.ALL])
+        val comments: MutableList<Comment> = mutableListOf(),
 
-        @ElementCollection
-        @CollectionTable(name = "user_ratings", joinColumns = [JoinColumn(name = "profile_id")])
-        @MapKeyJoinColumn(name = "rating_id")
-        @Column(name = "rating_value")
-        var userRatings: List<UserRating>? = null
+        @ManyToMany
+        @JoinTable(
+                name = "profiles_ratings",
+                joinColumns = [JoinColumn(name = "profile_id")],
+                inverseJoinColumns = [JoinColumn(name = "rating_id")]
+        )
+        val ratings: MutableList<Rating> = mutableListOf()
 )

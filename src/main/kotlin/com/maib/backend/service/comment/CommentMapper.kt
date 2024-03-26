@@ -28,8 +28,7 @@ class CommentMapper(
             ///TODO search in profile repository author
             val author = Profile(user = User(nickname = dto.commentAuthor))
             //TODO Search in postRepository
-            val rating = Rating(ratingId = dto.ratingId, post = null)
-
+            val rating = Rating()
             val post = Post(postId = dto.postId)
 
             val parentComment: Comment? = if (dto.parentComment != null) {
@@ -48,13 +47,13 @@ class CommentMapper(
             val comment = Comment(
                     commentId = dto.commentId,
                     message = dto.commentMessage,
-                    commentAuthor = author,
+                    profile = author,
                     post = post,
                     rating = rating,
-                    parentComment = parentComment,
-                    subComments = subComments
+                    parent = parentComment,
+                    subcomments = subComments
             )
-            rating.comment = comment
+//            rating.comment = comment
             comment.rating = rating
 
             ratingRepository.save(rating)
@@ -65,15 +64,15 @@ class CommentMapper(
     }
 
     override fun dtoFromEntity(entity: Comment): CommentDto {
-        val subComments = entity.subComments?.map { dtoFromEntity(it) }
+        val subComments = entity.subcomments.map { dtoFromEntity(it) }
 
         return CommentDto(
                 commentId = entity.commentId,
-                commentAuthor = entity.commentAuthor.user.nickname,
+                commentAuthor = entity.profile.user.nickname,
                 commentMessage = entity.message,
                 postId = entity.post.postId,
                 createdDate = entity.createdDate,
-                parentComment = entity.parentComment?.let { dtoFromEntity(it) },
+                parentComment = entity.parent?.let { dtoFromEntity(it) },
                 ratingId = entity.rating.ratingId,
                 rating = entity.rating.ratingValue.toString(),
                 subComments = subComments

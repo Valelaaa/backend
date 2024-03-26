@@ -12,20 +12,19 @@ import org.springframework.web.bind.annotation.*
 @RequiredArgsConstructor
 class CommentController(
         private val commentService: CommentService
-
 ) {
 
-    @GetMapping
-    @ResponseStatus(value = HttpStatus.OK)
-    fun getAll(): List<CommentDto> {
-        return commentService.findAll()
-    }
 
+    @GetMapping("/{postId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    fun getCommentsByPostId(@PathVariable("postId") postId: String):List<CommentDto> = commentService.findCommentsByPostId(postId)
     @GetMapping("/{commentId}")
     @ResponseStatus(value = HttpStatus.OK)
     fun getByName(@PathVariable("commentId") commentId: String): CommentDto {
         return commentService.findById(commentId)
     }
+
+
 
 
     @DeleteMapping("/{commentId}")
