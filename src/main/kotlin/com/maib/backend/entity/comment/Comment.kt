@@ -40,6 +40,6 @@ data class Comment(
         var parent: Comment? = null,
 
         @OneToMany(mappedBy = "parent")
-        var subcomments: MutableList<Comment> = mutableListOf()
+        var subcomments: MutableList<Comment> = mutableListOf(),
 ) {
 }

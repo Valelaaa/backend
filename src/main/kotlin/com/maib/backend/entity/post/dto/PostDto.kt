@@ -1,9 +1,10 @@
 package com.maib.backend.entity.post.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonView
 import lombok.Data
 import java.util.*
 
-@Data
 data class PostDto(
         var postId: String = UUID.randomUUID().toString(),
 
@@ -11,6 +12,7 @@ data class PostDto(
         var description: String? = null,
         var createdDate: Date = Date(System.currentTimeMillis()),
         var rating: Int = 0,
+        @get:JsonProperty("isRated")
         var isRated: Int = 0,
         var creatorName: String,
         val category: String,

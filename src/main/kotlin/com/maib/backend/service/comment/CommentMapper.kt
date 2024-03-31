@@ -1,5 +1,6 @@
 package com.maib.backend.service.comment
 
+import com.maib.backend.context.CurrentUserContext
 import com.maib.backend.entity.Mapper
 import com.maib.backend.entity.comment.Comment
 import com.maib.backend.entity.comment.CommentDto
@@ -8,10 +9,8 @@ import com.maib.backend.entity.rating.Rating
 import com.maib.backend.exception.ProfileNotFoundException
 import com.maib.backend.exception.comment.CommentNotFoundException
 import com.maib.backend.exception.post.PostNotFoundException
-import com.maib.backend.repository.CommentRepository
-import com.maib.backend.repository.PostRepository
-import com.maib.backend.repository.ProfileRepository
-import com.maib.backend.repository.RatingRepository
+import com.maib.backend.exception.rating.RatingNotFoundException
+import com.maib.backend.repository.*
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import java.util.*
@@ -23,7 +22,8 @@ class CommentMapper(
         private val commentRepository: CommentRepository,
         private val postsRepository: PostRepository,
         private val ratingRepository: RatingRepository,
-        private val profileRepository: ProfileRepository
+        private val profileRepository: ProfileRepository,
+        private val userRatingRepository: UserRatingRepository
 ) : Mapper<Comment, CommentDto> {
 
     fun createEntityFromDto(dto: CreateCommentDto): Comment {
@@ -112,6 +112,16 @@ class CommentMapper(
     override fun dtoFromEntity(entity: Comment): CommentDto {
         val subComments = entity.subcomments.map { dtoFromEntity(it) }
 
+        var currentUser: String? = null
+        var isRated = 0
+        if (CurrentUserContext.getCurrentUserId() != null) {
+            currentUser = CurrentUserContext.getCurrentUserId()
+            val userRating = userRatingRepository.findByProfile_ProfileIdAndRating_RatingId(
+                    currentUser ?: "",
+                    entity.rating.ratingId).orElse(null)
+            isRated = userRating?.ratingValue ?: 0
+        }
+
         return CommentDto(
                 commentId = entity.commentId,
                 commentAuthor = entity.profile.user.nickname,
@@ -122,6 +132,7 @@ class CommentMapper(
                 ratingId = entity.rating.ratingId,
                 rating = entity.rating.ratingValue,
                 subComments = subComments,
+                isRated = isRated
         )
     }
 }

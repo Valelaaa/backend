@@ -5,6 +5,8 @@ import com.maib.backend.entity.comment.CreateCommentDto
 import com.maib.backend.service.comment.CommentService
 import jakarta.transaction.Transactional
 import lombok.RequiredArgsConstructor
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*
 class CommentController(
         private val commentService: CommentService
 ) {
+    val log: Logger = LogManager.getLogger()
 
     @GetMapping("postId/{postId}")
     @ResponseStatus(value = HttpStatus.OK)
@@ -35,7 +38,10 @@ class CommentController(
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.OK)
-    fun create(@RequestBody commentDto: CreateCommentDto) = commentService.create(commentDto)
+    fun create(@RequestBody commentDto: CreateCommentDto) {
+        log.info("Request to create comment with body $commentDto")
+        commentService.create(commentDto)
+    }
 
 
     @PutMapping("/{commentId}")

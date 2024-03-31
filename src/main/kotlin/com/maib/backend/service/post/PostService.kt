@@ -29,8 +29,9 @@ class PostService(
     fun getAllPosts(category: String?, sortType: String, sortOrder: String): List<ShortPostDto> {
         var postList = postRepository.findAll()
         if (category != null)
-            postList = postList.filter { it.category.categoryName == category }
-
+            postList = postList.filter {
+                !it.isDeleted and (it.category.categoryName == category)
+            }
 
         postList = when (sortType) {
             "title" -> postList.sortedBy { it.title }
@@ -44,7 +45,6 @@ class PostService(
         } else {
             postList
         }
-
 
         return postList.map(shortPostMapper::dtoFromEntity)
     }
@@ -91,11 +91,14 @@ class PostService(
     }
 
     fun deletePost(postId: String) {
-        if (postRepository.existsById(postId)) {
-            postRepository.deleteById(postId)
-        } else {
-            throw PostNotFoundException(postId)
-        }
+        val post = postRepository.findById(postId).getOrNull() ?: throw PostNotFoundException(postId)
+        post.isDeleted = true
+        postRepository.save(post)
+//        if (postRepository.existsById(postId)) {
+//            postRepository.deleteById(postId)
+//        } else {
+//            throw PostNotFoundException(postId)
+//        }
     }
 
 }

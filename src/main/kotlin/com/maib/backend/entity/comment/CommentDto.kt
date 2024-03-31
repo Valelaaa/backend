@@ -1,11 +1,12 @@
 package com.maib.backend.entity.comment
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
-import lombok.Data
 import org.jetbrains.annotations.NotNull
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
-@Data
+
 data class CommentDto(
         @NotNull
         var commentId: String = UUID.randomUUID().toString(),
@@ -18,6 +19,7 @@ data class CommentDto(
         var parentCommentId: String? = null,
         var ratingId: String,
         var rating: Int = 0,
+        @get:JsonProperty("isRated")
         var isRated: Int = 0,
         var subComments: List<CommentDto>? = null,
 )

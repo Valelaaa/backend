@@ -8,11 +8,11 @@ import java.io.Serializable
 
 @Embeddable
 @EqualsAndHashCode
-class UserRatingId : Serializable {
-    @Column(name = "user_id")
-    private val userId: String? = null
+data class UserRatingId(
+        @Column(name = "profile_id")
+        val profileId: String? = null,
 
-    @Column(name = "rating_id")
-    private val ratingId: String? = null // Конструкторы, геттеры и сеттеры, переопределение equals и hashCode
-}
+        @Column(name = "rating_id")
+        val ratingId: String? = null // Конструкторы, геттеры и сеттеры, переопределение equals и hashCode
+) : Serializable
 

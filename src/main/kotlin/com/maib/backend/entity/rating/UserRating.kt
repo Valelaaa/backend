@@ -9,19 +9,19 @@ import lombok.NoArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "users_rating")
-class UserRating(
+@Table(name = "profiles_ratings")
+data class UserRating(
         @EmbeddedId
-        private val id: UserRatingId? = null,
+        val id: UserRatingId? = null,
 
         @ManyToOne
         @JoinColumn(name = "profile_id", insertable = false, updatable = false)
-        private val profile: Profile? = null,
+        val profile: Profile? = null,
 
         @ManyToOne
         @JoinColumn(name = "rating_id", insertable = false, updatable = false)
-        private val rating: Rating? = null,
+        val rating: Rating? = null,
 
         @Column(name = "rating_value")
-        private val ratingValue: Int = 0,
+        var ratingValue: Int = 0,
 )

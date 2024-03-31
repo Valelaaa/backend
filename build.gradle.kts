@@ -24,6 +24,11 @@ repositories {
 }
 
 dependencies {
+    val jsonWebTokenVersion = "0.12.5"
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("io.jsonwebtoken:jjwt:$jsonWebTokenVersion")
+    implementation("io.jsonwebtoken:jjwt-api:$jsonWebTokenVersion")
     implementation("org.apache.logging.log4j:log4j-core:2.17.1")
     implementation("org.flywaydb:flyway-core")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -35,6 +40,9 @@ dependencies {
     implementation("org.springframework:spring-web")
     implementation("org.projectlombok:lombok:1.18.26")
     implementation("org.postgresql:postgresql")
+
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jsonWebTokenVersion")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jsonWebTokenVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
