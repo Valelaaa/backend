@@ -60,7 +60,8 @@ class ShortPostMapper(private val postRepository: PostRepository,
                 creationDate = entity.createdDate,
                 category = entity.category.categoryName,
                 isRated = isRated,
-                commentsCount = commentCount
+                commentsCount = commentCount,
+                ratingId = entity.rating.ratingId
         )
     }
 

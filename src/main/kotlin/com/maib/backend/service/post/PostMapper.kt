@@ -54,7 +54,8 @@ class PostMapper(private val postRepository: PostRepository,
                 isRated = isRated,
                 rating = entity.rating.ratingValue,
                 category = entity.category.categoryName,
-                commentCount = commentCount
+                commentCount = commentCount,
+                ratingId = entity.rating.ratingId
         )
     }
 

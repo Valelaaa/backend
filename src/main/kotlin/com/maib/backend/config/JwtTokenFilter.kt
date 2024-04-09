@@ -6,14 +6,18 @@ import io.jsonwebtoken.Jwts
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.apache.logging.log4j.LogManager
 import org.springframework.web.filter.OncePerRequestFilter
+import org.springframework.web.util.ContentCachingRequestWrapper
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 
+
 object JwtTokenFilter : OncePerRequestFilter() {
     private val secretKey: SecretKey = SecretKeySpec("open-mind-secret-key-secret-secret".toByteArray(), "HmacSHA256")
-
+    private val log = LogManager.getLogger(JwtTokenFilter::class.java)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+        val wrappedRequest = ContentCachingRequestWrapper(request)
         val token = extractJwtToken(request)
         if (token != null) {
             try {
@@ -33,7 +37,7 @@ object JwtTokenFilter : OncePerRequestFilter() {
             // Если токен отсутствует, то разрешаем доступ без авторизации
             // Здесь можно добавить дополнительную логику, если требуется
         }
-        filterChain.doFilter(request, response)
+        filterChain.doFilter(wrappedRequest, response)
     }
 
 

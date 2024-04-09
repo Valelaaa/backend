@@ -21,7 +21,7 @@ class PostController(
     @ResponseStatus(value = HttpStatus.OK)
     fun getPosts(
             @RequestParam(name = "category", required = false) category: String?,
-            @RequestParam(name = "sortType", required = false, defaultValue = "fresh") sortType: String,
+            @RequestParam(name = "sortType", required = false, defaultValue = "rating") sortType: String,
             @RequestParam(name = "sortOrder", required = false, defaultValue = "desc") sortOrder: String,
     ): List<ShortPostDto> {
         log.info("Request to fetch $category posts")

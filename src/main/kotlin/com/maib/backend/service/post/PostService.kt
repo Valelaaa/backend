@@ -1,9 +1,11 @@
 package com.maib.backend.service.post
 
+import com.maib.backend.context.CurrentUserContext
 import com.maib.backend.entity.post.Post
 import com.maib.backend.entity.post.dto.CreatePostDto
 import com.maib.backend.entity.post.dto.PostDto
 import com.maib.backend.entity.post.dto.ShortPostDto
+import com.maib.backend.entity.profile.Profile
 import com.maib.backend.entity.rating.Rating
 import com.maib.backend.exception.ProfileNotFoundException
 import com.maib.backend.exception.category.CategoryNotFoundException
@@ -14,6 +16,7 @@ import com.maib.backend.repository.ProfileRepository
 import com.maib.backend.repository.RatingRepository
 import lombok.NoArgsConstructor
 import org.springframework.stereotype.Service
+import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 @Service
@@ -55,19 +58,22 @@ class PostService(
     }
 
     fun createPost(dto: CreatePostDto) {
-        val author = profileRepository.findById("111e4567-e89b-12d3-a456-426614174000").getOrNull()
-                ?: throw ProfileNotFoundException("111e4567-e89b-12d3-a456-426614174000")
+        var currentUser: Profile? = null
+        if (CurrentUserContext.getCurrentUserId() != null) {
+            currentUser = profileRepository.findById(CurrentUserContext.getCurrentUserId()!!).getOrNull()
+                    ?: throw ProfileNotFoundException(CurrentUserContext.getCurrentUserId()!!)
+        }
 
         val category = categoryRepository.findByCategoryName(dto.category.uppercase()).getOrNull()
                 ?: throw CategoryNotFoundException(categoryName = dto.category)
 
 
         val post = Post(
-                postId = dto.postId,
+                postId = UUID.randomUUID().toString(),
                 title = dto.title,
                 description = dto.description,
                 category = category,
-                profile = author,
+                profile = currentUser ?: Profile(),
         )
 
         val rating = Rating()

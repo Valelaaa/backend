@@ -16,5 +16,7 @@ data class PostDto(
         var isRated: Int = 0,
         var creatorName: String,
         val category: String,
-        val commentCount: Int
+        val commentCount: Int,
+
+        val ratingId:String
 )

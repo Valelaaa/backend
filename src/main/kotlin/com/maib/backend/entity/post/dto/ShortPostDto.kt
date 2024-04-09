@@ -12,5 +12,7 @@ data class ShortPostDto(
         @get:JsonProperty("isRated")
         var isRated: Int = 0,
         var commentsCount: Int = 0,
-        var category: String = ""
+        var category: String = "",
+        var ratingId: String = ""
+
 )
