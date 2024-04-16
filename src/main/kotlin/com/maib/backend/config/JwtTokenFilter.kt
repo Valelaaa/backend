@@ -31,13 +31,15 @@ object JwtTokenFilter : OncePerRequestFilter() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // Если произошла ошибка при проверке токена, то разрешаем доступ без авторизации
-                // Здесь можно добавить дополнительную логику, если требуется
             }
         } else {
             // Если токен отсутствует, то разрешаем доступ без авторизации
-            // Здесь можно добавить дополнительную логику, если требуется
         }
-        filterChain.doFilter(wrappedRequest, response)
+        try {
+            filterChain.doFilter(wrappedRequest, response)
+        } finally {
+            CurrentUserContext.clear()
+        }
     }
 
 

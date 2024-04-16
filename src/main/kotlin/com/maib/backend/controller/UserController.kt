@@ -11,12 +11,10 @@ import java.util.*
 @RequiredArgsConstructor
 class UserController(private val tokenService: JwtTokenService) {
 
-
     @PostMapping("/login")
-    @ResponseStatus(value = HttpStatus.ACCEPTED)
+    @ResponseStatus(value = HttpStatus.OK)
     fun login(@RequestParam("profileId") profileId: String): String {
         return tokenService.generateToken(profileId)
     }
-
 
 }
