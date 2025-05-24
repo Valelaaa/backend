@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openmind-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openmind-db
+  template:
+    metadata:
+      labels:
+        app: openmind-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13.1-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: openmind
+            - name: POSTGRES_PASSWORD
+              value: openmind
+            - name: POSTGRES_DB
+              value: open-mind
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-volume
+      volumes:
+        - name: postgres-volume
+          persistentVolumeClaim:
+            claimName: postgres-pvc

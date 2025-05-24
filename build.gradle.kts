@@ -8,7 +8,7 @@ plugins {
     id("org.flywaydb.flyway") version "10.7.2"
 }
 flyway {
-    url = "jdbc:postgresql://open-mind-db:5432/open-mind"
+    url = "jdbc:postgresql://openmind-db:5432/open-mind"
     user = "openmind"
     password = "openmind"
 }
@@ -26,6 +26,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework:spring-webmvc")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")

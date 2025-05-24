@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openmind
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openmind
+  template:
+    metadata:
+      labels:
+        app: openmind
+    spec:
+      containers:
+        - name: backend
+          image: open-mind-backend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://openmind-db:5432/open-mind
+            - name: SPRING_DATASOURCE_USERNAME
+              value: openmind
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: openmind
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: none
+          volumeMounts:
+            - mountPath: /app/data
+              name: data-volume
+            - mountPath: /app/storage
+              name: storage-volume
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: data-pvc
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: storage-pvc

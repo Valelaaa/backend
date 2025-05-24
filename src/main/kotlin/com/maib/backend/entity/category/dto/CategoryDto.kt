@@ -19,5 +19,5 @@ data class CategoryDto(
 
         var postCount: Long = 0,
 
-        var posts: List<Post> = emptyList()
+        var posts: List<Post> = emptyList(),
 )

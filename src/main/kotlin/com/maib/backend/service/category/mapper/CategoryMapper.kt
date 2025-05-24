@@ -20,7 +20,7 @@ class CategoryMapper(
     override fun entityFromDto(dto: CategoryDto): Category {
         return if (categoryRepository.existsByCategoryName(dto.categoryName)) {
 
-            categoryRepository.findByCategoryName(dto.categoryName).getOrNull()
+            categoryRepository.findByCategoryNameIgnoreCase(dto.categoryName).getOrNull()
                     ?: throw CategoryNotFoundException(categoryName = dto.categoryName)
 
         } else {

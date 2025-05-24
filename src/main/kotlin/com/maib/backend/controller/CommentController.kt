@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/comments")
 @RequiredArgsConstructor
 class CommentController(
-        private val commentService: CommentService
-
+    private val commentService: CommentService,
 ) {
 
     @GetMapping
@@ -27,7 +26,6 @@ class CommentController(
         return commentService.findById(commentId)
     }
 
-
     @DeleteMapping("/{commentId}")
     @ResponseStatus(value = HttpStatus.OK)
     @Transactional
@@ -37,11 +35,11 @@ class CommentController(
     @ResponseStatus(value = HttpStatus.OK)
     fun create(@RequestBody commentDto: CommentDto) = commentService.create(commentDto)
 
-
     @PutMapping("/{commentId}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun update(@PathVariable("commentId") commentId: String,
-               @RequestBody commentDto: CommentDto
+    fun update(
+        @PathVariable("commentId") commentId: String,
+        @RequestBody commentDto: CommentDto,
     ) = commentService.update(commentId, commentDto)
 
 }

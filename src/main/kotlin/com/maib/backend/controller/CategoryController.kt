@@ -1,5 +1,6 @@
 package com.maib.backend.controller
 
+import com.maib.backend.config.CreateCategorySwaggerRequest
 import com.maib.backend.entity.category.dto.CategoryDto
 import com.maib.backend.service.category.CategoryService
 import jakarta.transaction.Transactional
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/categories")
 @RequiredArgsConstructor
 class CategoryController(
-        private val categoryService: CategoryService
+    private val categoryService: CategoryService,
 ) {
 
     @GetMapping
@@ -26,18 +27,19 @@ class CategoryController(
         return categoryService.finByName(categoryName.uppercase())
     }
 
-
     @DeleteMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)
     @Transactional
     fun delete(@PathVariable("name") categoryName: String) = categoryService.deleteByName(categoryName.uppercase())
 
+
     @PostMapping
+    @CreateCategorySwaggerRequest
     @ResponseStatus(value = HttpStatus.OK)
     fun create(@RequestBody categoryDto: CategoryDto) = categoryService.create(categoryDto)
 
-
     @PutMapping("/{name}")
     @ResponseStatus(value = HttpStatus.OK)
-    fun update(@PathVariable("name") categoryName: String, @RequestBody categoryDto: CategoryDto) = categoryService.update(categoryName.uppercase(), categoryDto)
+    fun update(@PathVariable("name") categoryName: String, @RequestBody categoryDto: CategoryDto) =
+        categoryService.update(categoryName.uppercase(), categoryDto)
 }

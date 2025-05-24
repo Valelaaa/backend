@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface CategoryRepository : JpaRepository<Category, String> {
-    fun findByCategoryName(name: String): Optional<Category>
+    fun findByCategoryNameIgnoreCase(name: String): Optional<Category>
     fun existsByCategoryName(categoryName: String): Boolean
 }

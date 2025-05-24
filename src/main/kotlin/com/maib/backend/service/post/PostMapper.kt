@@ -29,7 +29,7 @@ class PostMapper(private val postRepository: PostRepository,
         } else {
             // TODO Add authorisation
             val author = Profile()
-            val category = categoryRepository.findByCategoryName(dto.category).getOrNull()
+            val category = categoryRepository.findByCategoryNameIgnoreCase(dto.category).getOrNull()
                     ?: throw CategoryNotFoundException(categoryName = dto.category)
             val rating = Rating()
             val post = Post(
