@@ -34,11 +34,3 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: ${{ secrets.DOCKER_USERNAME }}/open-mind-backend:latest
-
-      - name: Build and Push Custom DB image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./postgres
-          push: true
-          platforms: linux/arm64
-          tags: ${{ secrets.DOCKER_USERNAME }}/open-mind-db:latest
