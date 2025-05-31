@@ -27,6 +27,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Build JAR
+        run: ./gradlew build --no-daemon
+
       - name: Build and Push Docker image for ARM (Mac)
         uses: docker/build-push-action@v5
         with:
